@@ -16,6 +16,7 @@
          },
        ]}
        imageStyle={styles.logo}>
+
        <Text
          style={[
            styles.text,

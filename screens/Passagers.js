@@ -1,5 +1,5 @@
 import {
-    ScrollView,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -7,7 +7,7 @@ import {
   View,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
-import { Colors } from '../components/Colors';
+import {Colors} from '../components/Colors';
 
 export const Passager = ({navigation}) => {
   const [listUtilisateur, setListUtilisateur] = useState([]);
@@ -20,7 +20,7 @@ export const Passager = ({navigation}) => {
       .then(json => json.json())
       .then(res => setListUtilisateur(res));
   }, []);
-  
+
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
@@ -32,9 +32,16 @@ export const Passager = ({navigation}) => {
       contentInsetAdjustmentBehavior="automatic"
       style={backgroundStyle}>
       {listUtilisateur.map(utilisateur => (
-        <TouchableOpacity style={styles.btnDefault} key={utilisateur.id} onPress={() => {navigation.navigate('Details voyage', utilisateur)}}>
+        <TouchableOpacity
+          style={styles.btnDefault}
+          key={utilisateur.id}
+          onPress={() => {
+            navigation.navigate('Details voyage', utilisateur);
+          }}>
           <View>
-            <Text>{utilisateur.id}:  {utilisateur.name}</Text>
+            <Text>
+              {utilisateur.id}: {utilisateur.name}
+            </Text>
           </View>
         </TouchableOpacity>
       ))}
