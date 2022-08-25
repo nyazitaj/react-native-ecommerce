@@ -33,6 +33,7 @@ import {
 
 import {Colors} from './components/Colors';
 import { Accueil } from './screens/Accueil';
+import { Camera, CameraEcommerce } from './screens/CamerEcommerce';
 import { Conducteur } from './screens/Conducteur';
 import { DetailsVoyage } from './screens/DetailsVoyage';
 import { Passager } from './screens/Passagers';
@@ -56,6 +57,7 @@ const App = () => {
           <Stack.Screen name='Passager' component={Passager}></Stack.Screen>
           <Stack.Screen name='Conducteur' component={Conducteur}></Stack.Screen>
           <Stack.Screen name='Details voyage' component={DetailsVoyage}></Stack.Screen>
+          <Stack.Screen name='Camera' component={CameraEcommerce}></Stack.Screen>
         </Stack.Navigator>
       </NavigationContainer>
 

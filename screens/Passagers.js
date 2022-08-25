@@ -1,4 +1,8 @@
 import {
+  Alert,
+  Linking,
+  Modal,
+  PermissionsAndroid,
   ScrollView,
   StyleSheet,
   Text,
@@ -8,6 +12,7 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Colors} from '../components/Colors';
+// import Geolocation from '@react-native-community/geolocation';
 
 export const Passager = ({navigation}) => {
   const [listUtilisateur, setListUtilisateur] = useState([]);
@@ -27,6 +32,9 @@ export const Passager = ({navigation}) => {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
+  // Geolocation.getCurrentPosition(info => console.log(info));
+  // console.log(PermissionsAndroid)
+
   return (
     <ScrollView
       contentInsetAdjustmentBehavior="automatic"
@@ -38,13 +46,12 @@ export const Passager = ({navigation}) => {
           onPress={() => {
             navigation.navigate('Details voyage', utilisateur);
           }}>
-          <View>
-            <Text>
-              {utilisateur.id}: {utilisateur.name}
-            </Text>
-          </View>
+          <Text>
+            {utilisateur.id}: {utilisateur.name}
+          </Text>
         </TouchableOpacity>
       ))}
+
     </ScrollView>
   );
 };
