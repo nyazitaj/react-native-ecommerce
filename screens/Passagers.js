@@ -1,20 +1,15 @@
 import {
-  Alert,
-  Linking,
-  Modal,
-  PermissionsAndroid,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   useColorScheme,
-  View,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {Colors} from '../components/Colors';
+import React, { useEffect, useState } from 'react';
+import { Colors } from '../components/Colors';
 // import Geolocation from '@react-native-community/geolocation';
 
-export const Passager = ({navigation}) => {
+export const Passager = ({ navigation }) => {
   const [listUtilisateur, setListUtilisateur] = useState([]);
 
   useEffect(() => {
@@ -35,10 +30,33 @@ export const Passager = ({navigation}) => {
   // Geolocation.getCurrentPosition(info => console.log(info));
   // console.log(PermissionsAndroid)
 
+  const styles = StyleSheet.create({
+    btnDefault: {
+      marginTop: 10,
+      marginBottom: 10,
+      paddingTop: 20,
+      paddingBottom: 20,
+      paddingLeft: 10,
+      paddingRight: 10,
+      borderWidth: 1,
+      borderColor: '#cccccc',
+      width: '95%',
+      textAlign: 'center',
+      color: 'white',
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+  });
+
   return (
     <ScrollView
       contentInsetAdjustmentBehavior="automatic"
       style={backgroundStyle}>
+
+      <Text onPress={() => {
+        navigation.navigate('Details voyage');
+      }}>test</Text>
+
       {listUtilisateur.map(utilisateur => (
         <TouchableOpacity
           style={styles.btnDefault}
@@ -55,21 +73,3 @@ export const Passager = ({navigation}) => {
     </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  btnDefault: {
-    marginTop: 10,
-    marginBottom: 10,
-    paddingTop: 20,
-    paddingBottom: 20,
-    paddingLeft: 10,
-    paddingRight: 10,
-    borderWidth: 1,
-    borderColor: '#cccccc',
-    width: '95%',
-    textAlign: 'center',
-    color: 'white',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-  },
-});

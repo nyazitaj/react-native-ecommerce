@@ -1,6 +1,4 @@
 import {
-  Alert,
-  Button,
   Modal,
   ScrollView,
   StyleSheet,
@@ -9,17 +7,17 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
-import React, {useCallback, useEffect, useState} from 'react';
-import {Colors} from '../components/Colors';
+import React, { useState } from 'react';
+import { Colors } from '../components/Colors';
 /* import DocumentPicker, {
   DirectoryPickerResponse,
   DocumentPickerResponse,
   isInProgress,
   types,
 } from 'react-native-document-picker'; */
-import {Camera} from 'react-native-vision-camera';
+import { Camera } from 'react-native-vision-camera';
 
-export const DetailsVoyage = ({route, navigation}) => {
+export const DetailsVoyage = ({ route, navigation }) => {
   const utilisateur = route.params;
 
   const isDarkMode = useColorScheme() === 'dark';
@@ -41,6 +39,75 @@ export const DetailsVoyage = ({route, navigation}) => {
       console.warn(err);
     }
   }, []); */
+
+  const btnTakePhoto = async (navigation) => {
+    let permission = await Camera.getCameraPermissionStatus()
+
+    if (permission === 'authorized') {
+      navigation.navigate('Camera')
+    } else {
+      let newCameraPermission = await Camera.requestCameraPermission()
+
+      if (newCameraPermission === 'denied') {
+        setModalVisible(true)
+      }
+    }
+  };
+
+  const btnChangeAuhorisation = async () => {
+    await Linking.openSettings()
+  };
+
+  const styles = StyleSheet.create({
+    detailContainer: {
+      marginTop: 10,
+      paddingTop: 10,
+      paddingBottom: 20,
+      paddingLeft: 10,
+      paddingRight: 10,
+      borderWidth: 1,
+      borderColor: '#cccccc',
+      width: '95%',
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+    detailRow: {
+      marginTop: 10,
+      paddingTop: 10,
+      paddingBottom: 10,
+      paddingLeft: 10,
+      paddingRight: 10,
+      borderBottomWidth: 1,
+      borderBottomColor: '#cccccc',
+      width: '95%',
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+    detailTextLabel: {
+      fontWeight: '900',
+    },
+    btnOpenCamera: {
+      marginTop: 30,
+      marginBottom: 10,
+      paddingTop: 15,
+      paddingBottom: 15,
+      paddingLeft: 30,
+      paddingRight: 30,
+      borderWidth: 1,
+      borderColor: '#69117e',
+      backgroundColor: '#69117e',
+      borderRadius: 50,
+      textAlign: 'center',
+      color: 'white',
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+    btnOpenCameraText: {
+      color: 'white',
+      fontWeight: '900',
+      fontSize: 15
+    },
+  });
 
   return (
     <ScrollView
@@ -99,57 +166,9 @@ export const DetailsVoyage = ({route, navigation}) => {
         </TouchableOpacity>
       </Modal>
 
-      <TouchableOpacity style={styles.btnDefault} onPress={() => {btnTakePhoto(navigation)}}>
-        <Text>Prendre une photo</Text>
+      <TouchableOpacity style={styles.btnOpenCamera} onPress={() => { btnTakePhoto(navigation) }}>
+        <Text style={styles.btnOpenCameraText}>Prendre une photo</Text>
       </TouchableOpacity>
     </ScrollView>
   );
 };
-
-const btnTakePhoto = async (navigation) => {
-  let permission = await Camera.getCameraPermissionStatus()
-
-  if (permission === 'authorized') {
-    navigation.navigate('Camera')
-  } else {
-    let newCameraPermission = await Camera.requestCameraPermission()
-
-    if (newCameraPermission === 'denied') {
-      setModalVisible(true)
-    }
-  }
-};
-
-const btnChangeAuhorisation = async () => {
-  await Linking.openSettings()
-};
-
-const styles = StyleSheet.create({
-  detailContainer: {
-    marginTop: 10,
-    paddingTop: 10,
-    paddingBottom: 20,
-    paddingLeft: 10,
-    paddingRight: 10,
-    borderWidth: 1,
-    borderColor: '#cccccc',
-    width: '95%',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-  },
-  detailRow: {
-    marginTop: 10,
-    paddingTop: 10,
-    paddingBottom: 10,
-    paddingLeft: 10,
-    paddingRight: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#cccccc',
-    width: '95%',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-  },
-  detailTextLabel: {
-    fontWeight: '900',
-  },
-});
