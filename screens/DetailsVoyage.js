@@ -1,4 +1,5 @@
 import {
+  Button,
   Modal,
   ScrollView,
   StyleSheet,
@@ -7,17 +8,18 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
-import React, { useState } from 'react';
-import { Colors } from '../components/Colors';
-/* import DocumentPicker, {
+import React, {useCallback, useState} from 'react';
+import {Colors} from '../components/Colors';
+import DocumentPicker, {
   DirectoryPickerResponse,
   DocumentPickerResponse,
   isInProgress,
   types,
-} from 'react-native-document-picker'; */
-import { Camera } from 'react-native-vision-camera';
+} from 'react-native-document-picker';
+import {Camera} from 'react-native-vision-camera';
+import {Notifications} from 'react-native-notifications';
 
-export const DetailsVoyage = ({ route, navigation }) => {
+export const DetailsVoyage = ({route, navigation}) => {
   const utilisateur = route.params;
 
   const isDarkMode = useColorScheme() === 'dark';
@@ -29,7 +31,8 @@ export const DetailsVoyage = ({ route, navigation }) => {
   const [fileResponse, setFileResponse] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
 
-  /* const handleDocumentSelection = useCallback(async () => {
+  // Document upload
+  const handleDocumentSelection = useCallback(async () => {
     try {
       const response = await DocumentPicker.pick({
         presentationStyle: 'fullScreen',
@@ -38,26 +41,28 @@ export const DetailsVoyage = ({ route, navigation }) => {
     } catch (err) {
       console.warn(err);
     }
-  }, []); */
+  }, []);
 
-  const btnTakePhoto = async (navigation) => {
-    let permission = await Camera.getCameraPermissionStatus()
+  // Camera
+  const btnTakePhoto = async navigation => {
+    let permission = await Camera.getCameraPermissionStatus();
 
     if (permission === 'authorized') {
-      navigation.navigate('Camera')
+      navigation.navigate('Camera');
     } else {
-      let newCameraPermission = await Camera.requestCameraPermission()
+      let newCameraPermission = await Camera.requestCameraPermission();
 
       if (newCameraPermission === 'denied') {
-        setModalVisible(true)
+        setModalVisible(true);
       }
     }
   };
 
   const btnChangeAuhorisation = async () => {
-    await Linking.openSettings()
+    await Linking.openSettings();
   };
 
+  // CSS
   const styles = StyleSheet.create({
     detailContainer: {
       marginTop: 10,
@@ -105,8 +110,33 @@ export const DetailsVoyage = ({ route, navigation }) => {
     btnOpenCameraText: {
       color: 'white',
       fontWeight: '900',
-      fontSize: 15
+      fontSize: 15,
     },
+  });
+
+  // Notification
+  Notifications.registerRemoteNotifications();
+
+  Notifications.events().registerNotificationReceivedForeground(
+    (notification, completion) => {
+      console.log(
+        `Notification received in foreground: ${notification.title} : ${notification.body}`,
+      );
+      completion({alert: false, sound: false, badge: false});
+    },
+  );
+
+  Notifications.events().registerNotificationOpened(
+    (notification, completion) => {
+      console.log(`Notification opened: ${notification.payload}`);
+      completion();
+    },
+  );
+
+  Notifications.postLocalNotification({
+    title: 'Nouveau visiteur',
+    body: "Quelqu'un a visité votre profil.",
+    extra: 'data',
   });
 
   return (
@@ -141,7 +171,30 @@ export const DetailsVoyage = ({ route, navigation }) => {
         </Text>
       </View>
 
+      <Modal visible={modalVisible} transparent={false} animation="slide">
+        <Text>
+          Pour utiliser cette fonctionnalité, vous devez accepter les
+          autorisations.
+        </Text>
+
+        <TouchableOpacity
+          style={styles.btnDefault}
+          onPress={btnChangeAuhorisation}>
+          <Text>Changer les autorisations</Text>
+        </TouchableOpacity>
+      </Modal>
+
+      <TouchableOpacity
+        style={styles.btnOpenCamera}
+        onPress={() => {
+          btnTakePhoto(navigation);
+        }}>
+        <Text style={styles.btnOpenCameraText}>Prendre une photo</Text>
+      </TouchableOpacity>
+
       <View>
+        <Button title="Select 📑" onPress={handleDocumentSelection} />
+
         {fileResponse.map((file, index) => (
           <Text
             key={index.toString()}
@@ -151,24 +204,7 @@ export const DetailsVoyage = ({ route, navigation }) => {
             {file?.uri}
           </Text>
         ))}
-
-        {/* <Button title="Select 📑" onPress={handleDocumentSelection} /> */}
       </View>
-
-      <Modal visible={modalVisible} transparent={false} animation="slide">
-        <Text>
-          Pour utiliser cette fonctionnalité, vous devez accepter les
-          autorisations.
-        </Text>
-
-        <TouchableOpacity style={styles.btnDefault} onPress={btnChangeAuhorisation}>
-          <Text>Changer les autorisations</Text>
-        </TouchableOpacity>
-      </Modal>
-
-      <TouchableOpacity style={styles.btnOpenCamera} onPress={() => { btnTakePhoto(navigation) }}>
-        <Text style={styles.btnOpenCameraText}>Prendre une photo</Text>
-      </TouchableOpacity>
     </ScrollView>
   );
 };

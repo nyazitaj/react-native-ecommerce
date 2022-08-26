@@ -13,9 +13,6 @@ export const Passager = ({ navigation }) => {
   const [listUtilisateur, setListUtilisateur] = useState([]);
 
   useEffect(() => {
-    // Pour atteindre le PC hote (si emulateur) ip: 10.0.2.2
-    // si le téléphone est en USB: partagé votre connexion de donnée,
-    // et si l'ip sera celle de votre pc
     fetch('https://jsonplaceholder.typicode.com/users')
       .then(json => json.json())
       .then(res => setListUtilisateur(res));
@@ -30,6 +27,7 @@ export const Passager = ({ navigation }) => {
   // Geolocation.getCurrentPosition(info => console.log(info));
   // console.log(PermissionsAndroid)
 
+  // CSS
   const styles = StyleSheet.create({
     btnDefault: {
       marginTop: 10,
@@ -52,10 +50,6 @@ export const Passager = ({ navigation }) => {
     <ScrollView
       contentInsetAdjustmentBehavior="automatic"
       style={backgroundStyle}>
-
-      <Text onPress={() => {
-        navigation.navigate('Details voyage');
-      }}>test</Text>
 
       {listUtilisateur.map(utilisateur => (
         <TouchableOpacity

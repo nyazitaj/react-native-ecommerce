@@ -17,6 +17,7 @@ export const Accueil = ({ navigation }) => {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
+  // CSS
   const styles = StyleSheet.create({
     sectionContainer: {
       marginTop: 32,
