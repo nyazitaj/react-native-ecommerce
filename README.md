@@ -16,3 +16,37 @@ The list of all the web technologies used in this projects are:
 
 - [Android Asset Studio](http://romannurik.github.io/AndroidAssetStudio/index.html)
 - [React Native Styling Cheat Sheet](https://github.com/vhpoet/react-native-styling-cheat-sheet)
+
+## Screenshots:
+
+Listing all the books:
+
+Mobile menu icon:
+![](/assets/images/screenshots/01.jpg)
+
+Two screen:
+![](/assets/images/screenshots/02.jpg)
+
+List:
+![](/assets/images/screenshots/03.jpg)
+
+Details:
+![](/assets/images/screenshots/04.jpg)
+
+Notification:
+![](/assets/images/screenshots/05.jpg)
+
+Camera view:
+![](/assets/images/screenshots/06.jpg)
+
+Flash light on:
+![](/assets/images/screenshots/07.jpg)
+
+Image preview:
+![](/assets/images/screenshots/08.jpg)
+
+Selecting file a:
+![](/assets/images/screenshots/09.jpg)
+
+Selected file location preview :
+![](/assets/images/screenshots/08.jpg)
