@@ -49,4 +49,4 @@ Selecting file a:
 ![](/assets/images/screenshots/09.jpg)
 
 Selected file location preview :
-![](/assets/images/screenshots/08.jpg)
+![](/assets/images/screenshots/10.jpg)
